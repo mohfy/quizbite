@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=dev.mohfy.quizbite
+Exec=@bindir@/quizbite --gapplication-service

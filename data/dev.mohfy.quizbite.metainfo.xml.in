@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<component type="desktop-application">
+  <id>dev.mohfy.quizbite</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Quizbite</name>
+  <summary>Create and play quizzes</summary>
+  <description>
+    <p
+        >Create quizzes with multiple choice questions. Add an optional image per question. Export quizzes to PDF.</p>
+    <p>Import and export quiz files. Keep a local quiz library.</p>
+  </description>
+
+  <developer id="dev.mohfy">
+    <name>mohfy</name>
+  </developer>
+
+  <url type="homepage">https://github.com/mohfy/quizbite</url>
+  <url type="vcs-browser">https://github.com/mohfy/quizbite</url>
+  <url type="bugtracker">https://github.com/mohfy/quizbite/issues</url>
+
+  <translation type="gettext">quizbite</translation>
+  <launchable type="desktop-id">dev.mohfy.quizbite.desktop</launchable>
+  <content_rating type="oars-1.1" />
+
+  <branding>
+    <color type="primary" scheme_preference="light">#3584e4</color>
+    <color type="primary" scheme_preference="dark">#1a5fb4</color>
+  </branding>
+
+  <releases>
+    <release version="1.0.0" date="2026-04-10">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
+  </releases>
+
+</component>

@@ -1,0 +1,98 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $QuizbiteWindow: Adw.ApplicationWindow {
+  title: _("Quizbite");
+  default-width: 800;
+  default-height: 600;
+
+  content: Adw.NavigationView navigation_view {
+    Adw.NavigationPage {
+      title: _("Quizbite");
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          [start]
+          Button {
+            action-name: "app.create";
+            tooltip-text: _("Create Quiz");
+
+            child: Adw.ButtonContent {
+              icon-name: "list-add-symbolic";
+              label: _("New Quiz");
+            };
+          }
+
+          [end]
+          MenuButton {
+            primary: true;
+            icon-name: "open-menu-symbolic";
+            tooltip-text: _("Main Menu");
+            menu-model: primary_menu;
+          }
+        }
+
+        content: Gtk.Stack quiz_status {
+          Adw.StatusPage empty_page {
+            title: _("No Quizzes Yet");
+            description: _("Create a quiz to get started, or import one that you already have.");
+            icon-name: "accessories-dictionary-symbolic";
+
+            child: Gtk.Box {
+              halign: center;
+              spacing: 12;
+              margin-top: 24;
+
+              Button {
+                label: _("New Quiz");
+                action-name: "app.create";
+
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+              }
+
+              Button {
+                label: _("Import Quiz");
+                action-name: "app.import";
+
+                styles [
+                  "pill",
+                ]
+              }
+            };
+          }
+
+          Adw.Clamp quiz_list_clamp {
+            child: Adw.PreferencesGroup quiz_list {
+              title: _("Quizzes");
+            };
+          }
+        };
+      };
+    }
+  };
+}
+
+menu primary_menu {
+  section {
+    item {
+      label: _("Import Quiz");
+      action: "app.import";
+    }
+  }
+
+  section {
+    item {
+      label: _("Keyboard Shortcuts");
+      action: "app.shortcuts";
+    }
+
+    item {
+      label: _("About Quizbite");
+      action: "app.about";
+    }
+  }
+}

@@ -1,0 +1,438 @@
+# Arabic translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: quizbite 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-10 17:29+0400\n"
+"PO-Revision-Date: 2026-04-10 17:29+0400\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0?0:n==1?1:n==2?2:n%100>=3 && n%100<=10?3:n%100>=11 && n%100<=99?4:5;\n"
+
+#: data/dev.mohfy.quizbite.desktop.in:2
+#: data/dev.mohfy.quizbite.metainfo.xml.in:7 src/main.py:63 src/ui/window.ui:1
+msgid "Quizbite"
+msgstr "Quizbite"
+
+#: data/dev.mohfy.quizbite.desktop.in:8
+msgid "GTK;"
+msgstr "GTK;"
+
+#: data/dev.mohfy.quizbite.metainfo.xml.in:8
+msgid "Create and play quizzes"
+msgstr "أنشئ الاختبارات والعبها"
+
+#: data/dev.mohfy.quizbite.metainfo.xml.in:11
+msgid ""
+"Create quizzes with multiple choice questions. Add an optional image per "
+"question. Export quizzes to PDF."
+msgstr ""
+"أنشئ اختبارات بأسئلة اختيار من متعدد. أضف صورة اختيارية لكل سؤال. صدّر "
+"الاختبارات إلى PDF."
+
+#: data/dev.mohfy.quizbite.metainfo.xml.in:12
+msgid "Import and export quiz files. Keep a local quiz library."
+msgstr "استورد وصدّر ملفات الاختبارات. احتفظ بمكتبة اختبارات محلية."
+
+#: data/dev.mohfy.quizbite.metainfo.xml.in:16
+msgid "mohfy"
+msgstr "mohfy"
+
+#: data/dev.mohfy.quizbite.metainfo.xml.in:35
+msgid "First release."
+msgstr "الإصدار الأول."
+
+#: src/data/quiz_file.py:45
+msgid "Question image must be a JSON object."
+msgstr "يجب أن تكون صورة السؤال كائن JSON."
+
+#: src/data/quiz_file.py:52
+msgid "Question image filename is required."
+msgstr "اسم ملف صورة السؤال مطلوب."
+
+#: src/data/quiz_file.py:55
+msgid "Question image media_type is required."
+msgstr "قيمة media_type لصورة السؤال مطلوبة."
+
+#: src/data/quiz_file.py:58
+msgid "Question image media_type must be an image MIME type."
+msgstr "يجب أن تكون media_type لصورة السؤال نوع MIME للصورة."
+
+#: src/data/quiz_file.py:61
+msgid "Question image data is required."
+msgstr "بيانات صورة السؤال مطلوبة."
+
+#: src/data/quiz_file.py:66
+msgid "Question image data must be valid base64."
+msgstr "يجب أن تكون بيانات صورة السؤال base64 صالحة."
+
+#: src/data/quiz_file.py:78
+msgid "Quiz file must contain a JSON object."
+msgstr "يجب أن يحتوي ملف الاختبار على كائن JSON."
+
+#: src/data/quiz_file.py:82
+msgid "Quiz title is required."
+msgstr "عنوان الاختبار مطلوب."
+
+#: src/data/quiz_file.py:86
+msgid "Quiz must include at least one question."
+msgstr "يجب أن يتضمن الاختبار سؤالًا واحدًا على الأقل."
+
+#: src/data/quiz_file.py:91
+msgid "Each question must be a JSON object."
+msgstr "يجب أن يكون كل سؤال كائن JSON."
+
+#: src/data/quiz_file.py:99
+msgid "Each question needs text."
+msgstr "يحتاج كل سؤال إلى نص."
+
+#: src/data/quiz_file.py:102
+msgid "Each question must have at least two options."
+msgstr "يجب أن يحتوي كل سؤال على خيارين على الأقل."
+
+#: src/data/quiz_file.py:107
+msgid "Options must be non-empty strings."
+msgstr "يجب أن تكون الخيارات سلاسل نصية غير فارغة."
+
+#: src/data/quiz_file.py:113
+msgid "Each question must have a valid correct_index."
+msgstr "يجب أن يحتوي كل سؤال على correct_index صالح."
+
+#: src/main.py:67
+msgid "translator-credits"
+msgstr "مساهمو Quizbite"
+
+#: src/shortcuts_dialog.ui:1
+msgid "Shortcuts"
+msgstr "الاختصارات"
+
+#: src/shortcuts_dialog.ui:1
+msgctxt "shortcut window"
+msgid "Create Quiz"
+msgstr "إنشاء اختبار"
+
+#: src/shortcuts_dialog.ui:1
+msgctxt "shortcut window"
+msgid "Import Quiz"
+msgstr "استيراد اختبار"
+
+#: src/shortcuts_dialog.ui:1
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "خروج"
+
+#: src/ui/editor/create_quiz.py:93 src/ui/window.py:285
+msgid "OK"
+msgstr "حسنًا"
+
+#: src/ui/editor/create_quiz.py:103 src/ui/editor/create_quiz.py:178
+#: src/ui/play_quiz/quiz_player.py:255 src/ui/utils/pdfgenerator.py:101
+#, python-brace-format
+msgid "Question {number}"
+msgstr "السؤال {number}"
+
+#: src/ui/editor/create_quiz.py:106
+msgid "Question"
+msgstr "السؤال"
+
+#: src/ui/editor/create_quiz.py:135
+msgid "Remove Question"
+msgstr "إزالة السؤال"
+
+#: src/ui/editor/create_quiz.py:189
+msgid "Select Question Image"
+msgstr "تحديد صورة السؤال"
+
+#: src/ui/editor/create_quiz.py:190
+msgid "Select"
+msgstr "تحديد"
+
+#: src/ui/editor/create_quiz.py:211 src/ui/editor/create_quiz.py:223
+msgid "Image Selection Failed"
+msgstr "فشل تحديد الصورة"
+
+#: src/ui/editor/create_quiz.ui:1
+msgid "Quiz Editor"
+msgstr "محرّر الاختبار"
+
+#: src/ui/editor/create_quiz.ui:1 src/ui/window.py:195 src/ui/window.py:266
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: src/ui/editor/create_quiz.ui:1
+msgid "Create"
+msgstr "إنشاء"
+
+#: src/ui/editor/create_quiz.ui:1 src/ui/utils/pdfgenerator.py:97
+msgid "Quiz"
+msgstr "الاختبار"
+
+#: src/ui/editor/create_quiz.ui:1
+msgid "Set the quiz title."
+msgstr "عيّن عنوان الاختبار."
+
+#: src/ui/editor/create_quiz.ui:1
+msgid "Quiz Title"
+msgstr "عنوان الاختبار"
+
+#: src/ui/editor/create_quiz.ui:1
+msgid "Questions"
+msgstr "الأسئلة"
+
+#: src/ui/editor/create_quiz.ui:1
+msgid "Add Question"
+msgstr "إضافة سؤال"
+
+#: src/ui/editor/create_quiz_support.py:75
+#, python-brace-format
+msgid "Option {number}"
+msgstr "الخيار {number}"
+
+#: src/ui/editor/create_quiz_support.py:81
+msgid "Mark as correct answer"
+msgstr "وضع علامة كإجابة صحيحة"
+
+#: src/ui/editor/create_quiz_support.py:99
+msgid "Question Image (Optional)"
+msgstr "صورة السؤال (اختياري)"
+
+#: src/ui/editor/create_quiz_support.py:100
+#: src/ui/editor/create_quiz_support.py:165
+msgid "No image selected"
+msgstr "لم يتم اختيار صورة"
+
+#: src/ui/editor/create_quiz_support.py:111
+msgid "Choose Image"
+msgstr "اختيار صورة"
+
+#: src/ui/editor/create_quiz_support.py:117
+msgid "Remove image"
+msgstr "إزالة الصورة"
+
+#: src/ui/editor/create_quiz_support.py:142
+msgid "Selected file is not a supported image."
+msgstr "الملف المحدد ليس صورة مدعومة."
+
+#: src/ui/editor/create_quiz_support.py:147
+msgid "Selected file could not be loaded as an image."
+msgstr "تعذر تحميل الملف المحدد كصورة."
+
+#: src/ui/play_quiz/quiz_player.py:56
+msgid "Quiz session is not active."
+msgstr "جلسة الاختبار غير نشطة."
+
+#: src/ui/play_quiz/quiz_player.py:180
+#, python-brace-format
+msgid "Question {current} of {total}"
+msgstr "السؤال {current} من {total}"
+
+#: src/ui/play_quiz/quiz_player.py:223
+msgid "Previous"
+msgstr "السابق"
+
+#: src/ui/play_quiz/quiz_player.py:234
+msgid "Finish"
+msgstr "إنهاء"
+
+#: src/ui/play_quiz/quiz_player.py:234
+msgid "Next"
+msgstr "التالي"
+
+#: src/ui/play_quiz/quiz_player.py:340
+msgid "Open image"
+msgstr "فتح الصورة"
+
+#: src/ui/play_quiz/quiz_player.py:348 src/ui/utils/pdfgenerator.py:442
+msgid "Question image"
+msgstr "صورة السؤال"
+
+#: src/ui/play_quiz/quiz_player.py:475
+#, python-brace-format
+msgid "{answered} of {total} answered"
+msgstr "تمت الإجابة عن {answered} من {total}"
+
+#: src/ui/play_quiz/score_view.py:30
+msgid "Quiz Complete"
+msgstr "اكتمل الاختبار"
+
+#: src/ui/play_quiz/score_view.py:31
+#, python-brace-format
+msgid "You scored {score} out of {total}."
+msgstr "لقد حصلت على {score} من أصل {total}."
+
+#: src/ui/play_quiz/score_view.py:41
+msgid "Try Again"
+msgstr "حاول مرة أخرى"
+
+#: src/ui/play_quiz/score_view.py:47
+msgid "Back to Library"
+msgstr "العودة إلى المكتبة"
+
+#: src/ui/play_quiz/score_view.py:55
+msgid "Score"
+msgstr "النتيجة"
+
+#: src/ui/quiz_library.py:43
+msgid "Quiz actions"
+msgstr "إجراءات الاختبار"
+
+#: src/ui/quiz_library.py:49 src/ui/window.py:156
+msgid "Share Quiz"
+msgstr "مشاركة الاختبار"
+
+#: src/ui/quiz_library.py:50 src/ui/window.py:192
+msgid "Export PDF"
+msgstr "تصدير PDF"
+
+#: src/ui/quiz_library.py:53
+msgid "Delete Quiz"
+msgstr "حذف الاختبار"
+
+#: src/ui/quiz_library.py:89 src/ui/utils/pdfgenerator.py:104
+#, python-brace-format
+msgid "{count} question"
+msgid_plural "{count} questions"
+msgstr[0] "{count} سؤال"
+msgstr[1] "{count} سؤال"
+msgstr[2] "{count} سؤالان"
+msgstr[3] "{count} أسئلة"
+msgstr[4] "{count} سؤالًا"
+msgstr[5] "{count} سؤال"
+
+#: src/ui/utils/file_dialogs.py:46
+msgid "Quiz files"
+msgstr "ملفات الاختبارات"
+
+#: src/ui/utils/file_dialogs.py:57
+msgid "PDF files"
+msgstr "ملفات PDF"
+
+#: src/ui/utils/file_dialogs.py:65
+msgid "Images"
+msgstr "صور"
+
+#: src/ui/utils/file_dialogs.py:82
+msgid "The selected file is not available as a local path."
+msgstr "الملف المحدد غير متاح كمسار محلي."
+
+#: src/ui/utils/pdfgenerator.py:89
+msgid "PDF export completed without writing an output file."
+msgstr "اكتمل تصدير PDF دون كتابة ملف إخراج."
+
+#: src/ui/utils/pdfgenerator.py:99
+msgid "No answer key available"
+msgstr "لا يتوفر مفتاح للإجابات"
+
+#: src/ui/utils/pdfgenerator.py:100
+msgid "Answer Key"
+msgstr "مفتاح الإجابات"
+
+#: src/ui/utils/pdfgenerator.py:102
+#, python-brace-format
+msgid "Q{number}:"
+msgstr "س{number}:"
+
+#: src/ui/utils/pdfgenerator.py:108
+msgid "No printable questions available."
+msgstr "لا توجد أسئلة قابلة للطباعة."
+
+#: src/ui/window.py:128 src/ui/window.ui:1
+msgid "Import Quiz"
+msgstr "استيراد اختبار"
+
+#: src/ui/window.py:129
+msgid "Import"
+msgstr "استيراد"
+
+#: src/ui/window.py:139 src/ui/window.py:149
+msgid "Import Failed"
+msgstr "فشل الاستيراد"
+
+#: src/ui/window.py:157
+msgid "Save"
+msgstr "حفظ"
+
+#: src/ui/window.py:173 src/ui/window.py:185
+msgid "Share Failed"
+msgstr "فشلت المشاركة"
+
+#: src/ui/window.py:181
+msgid "Quiz could not be loaded for export."
+msgstr "تعذر تحميل الاختبار للتصدير."
+
+#: src/ui/window.py:193
+msgid "Choose whether the exported PDF should include the answer key."
+msgstr "اختر ما إذا كان ملف PDF المُصدّر ينبغي أن يتضمن مفتاح الإجابات."
+
+#: src/ui/window.py:196
+msgid "Without Answer Key"
+msgstr "بدون مفتاح الإجابات"
+
+#: src/ui/window.py:197
+msgid "With Answer Key"
+msgstr "مع مفتاح الإجابات"
+
+#: src/ui/window.py:210
+msgid "Export Quiz PDF"
+msgstr "تصدير الاختبار كملف PDF"
+
+#: src/ui/window.py:211
+msgid "Export"
+msgstr "تصدير"
+
+#: src/ui/window.py:238 src/ui/window.py:254
+msgid "Export Failed"
+msgstr "فشل التصدير"
+
+#: src/ui/window.py:246
+msgid "Quiz could not be loaded for PDF export."
+msgstr "تعذر تحميل الاختبار لتصديره كملف PDF."
+
+#: src/ui/window.py:261
+msgid "Delete Quiz?"
+msgstr "حذف الاختبار؟"
+
+#: src/ui/window.py:262
+#, python-brace-format
+msgid "\"{title}\" will be removed from your library."
+msgstr "سيتم إزالة \"{title}\" من مكتبتك."
+
+#: src/ui/window.py:267
+msgid "Delete"
+msgstr "حذف"
+
+#: src/ui/window.ui:1
+msgid "New Quiz"
+msgstr "اختبار جديد"
+
+#: src/ui/window.ui:1
+msgid "Main Menu"
+msgstr "القائمة الرئيسية"
+
+#: src/ui/window.ui:1
+msgid "No Quizzes Yet"
+msgstr "لا توجد اختبارات بعد"
+
+#: src/ui/window.ui:1
+msgid "Create a quiz to get started, or import one that you already have."
+msgstr "أنشئ اختبارًا للبدء، أو استورد اختبارًا لديك بالفعل."
+
+#: src/ui/window.ui:1
+msgid "Quizzes"
+msgstr "الاختبارات"
+
+#: src/ui/window.ui:1
+msgid "Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
+
+#: src/ui/window.ui:1
+msgid "About Quizbite"
+msgstr "حول Quizbite"

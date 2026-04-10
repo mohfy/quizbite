@@ -1,0 +1,9 @@
+/subprojects/
+/builddir/
+/.flatplay/
+/dist/
+/messages.mo
+/subprojects/blueprint-compiler
+
+__pycache__/
+*.py[cod]

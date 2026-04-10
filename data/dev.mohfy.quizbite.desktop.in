@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Quizbite
+Exec=quizbite
+Icon=dev.mohfy.quizbite
+Terminal=false
+Type=Application
+Categories=Education;
+Keywords=Quiz;Trivia;Education;Test;Exam;
+StartupNotify=true
+DBusActivatable=true

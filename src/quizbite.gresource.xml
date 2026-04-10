@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gresources>
+  <gresource prefix="/dev/mohfy/quizbite">
+    <file preprocess="xml-stripblanks">ui/window.ui</file>
+    <file preprocess="xml-stripblanks">shortcuts_dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/editor/create_quiz.ui</file>
+  </gresource>
+</gresources>

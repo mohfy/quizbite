@@ -1,0 +1,66 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $QuizEditorDialog: Adw.Dialog {
+  title: _("Quiz Editor");
+  content-height: 640;
+  content-width: 720;
+
+  Adw.ToolbarView {
+    [top]
+    HeaderBar {
+      title-widget: Adw.WindowTitle {
+        title: _("Quiz Editor");
+      };
+
+      [start]
+      Button {
+        label: _("Cancel");
+        clicked => $on_cancel_clicked();
+      }
+
+      [end]
+      Button create_button {
+        label: _("Create");
+
+        styles [
+          "suggested-action",
+        ]
+
+        clicked => $on_create_quiz();
+      }
+    }
+
+    content: Gtk.ScrolledWindow {
+      vexpand: true;
+      hscrollbar-policy: never;
+
+      Adw.PreferencesPage quiz_editor {
+        Adw.PreferencesGroup {
+          title: _("Quiz");
+          description: _("Set the quiz title.");
+
+          Adw.EntryRow quiz_title {
+            title: _("Quiz Title");
+            changed => $on_form_changed();
+          }
+        }
+
+        Adw.PreferencesGroup questions_group {
+          title: _("Questions");
+
+          header-suffix: Button {
+            icon-name: "list-add-symbolic";
+            tooltip-text: _("Add Question");
+
+            styles [
+              "flat",
+            ]
+
+            clicked => $on_add_question_clicked();
+          };
+        }
+      }
+    };
+  }
+}
