@@ -36,6 +36,22 @@ def generate_quiz_pdf(
     return pdf_path
 
 
+def generate_flashcard_pdf(
+    path: str | Path,
+    deck_data: dict,
+    *,
+    export_mode: str,
+) -> Path:
+    """Generate a flashcard study-sheet PDF."""
+    pdf_path = Path(path)
+    if pdf_path.suffix != ".pdf":
+        pdf_path = pdf_path.with_suffix(".pdf")
+
+    html = _build_flashcard_html(deck_data, export_mode)
+    _render_html_to_pdf(html, pdf_path)
+    return pdf_path
+
+
 def _render_html_to_pdf(html: str, pdf_path: Path) -> None:
     """Render HTML to a PDF file path."""
     loop = GLib.MainLoop()
@@ -434,6 +450,294 @@ def _build_quiz_html(quiz_data: dict, include_answer_key: bool) -> str:
     )
 
 
+def _build_flashcard_html(deck_data: dict, export_mode: str) -> str:
+    """Build printable HTML for flashcard study-sheet export."""
+    card_count = len(deck_data["cards"])
+    fallback_title = _("Flashcards")
+    title = escape((deck_data.get("title") or fallback_title).strip() or fallback_title)
+    subtitle = ngettext(
+        "{count} flashcard",
+        "{count} flashcards",
+        card_count,
+    ).format(count=card_count)
+    empty_state_message = _("No printable flashcards available.")
+
+    if export_mode == "hide-term":
+        export_label = _("Term Hidden")
+    elif export_mode == "hide-definition":
+        export_label = _("Definition Hidden")
+    else:
+        export_label = _("Term and Definition")
+
+    card_sections = []
+    for card_index, card in enumerate(deck_data["cards"], start=1):
+        card_sections.append(
+            """
+            <section class="flashcard-card">
+              <div class="flashcard-number">{number}</div>
+              <div class="flashcard-columns">
+                {term_column}
+                {definition_column}
+              </div>
+            </section>
+            """.format(
+                number=card_index,
+                term_column=_build_flashcard_side_column(
+                    label=_("Term"),
+                    text=card.get("term_text") or "",
+                    image=card.get("term_image"),
+                    is_hidden=export_mode == "hide-term",
+                    empty_message=_("No term available."),
+                ),
+                definition_column=_build_flashcard_side_column(
+                    label=_("Definition"),
+                    text=card.get("definition_text") or "",
+                    image=card.get("definition_image"),
+                    is_hidden=export_mode == "hide-definition",
+                    empty_message=_("No definition available."),
+                ),
+            )
+        )
+
+    return """
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <style>
+          @page {{
+            size: A4;
+            margin: 12mm;
+          }}
+
+          :root {{
+            color-scheme: light;
+            --text: #141414;
+            --secondary: rgba(33, 33, 33, 0.78);
+            --divider: #d6d6d6;
+            --card-bg: #fcfcfc;
+            --surface-bg: #ffffff;
+          }}
+
+          body {{
+            font-family: "Adwaita Sans", "Cantarell", sans-serif;
+            color: var(--text);
+            line-height: 1.35;
+            font-size: 10.5pt;
+            margin: 0;
+          }}
+
+          * {{
+            box-sizing: border-box;
+          }}
+
+          header {{
+            margin-bottom: 10mm;
+          }}
+
+          h1 {{
+            font-size: 20pt;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.15;
+          }}
+
+          .subtitle {{
+            color: var(--secondary);
+            font-size: 9.5pt;
+            margin-top: 3px;
+          }}
+
+          .header-divider {{
+            height: 1px;
+            background: var(--divider);
+            margin-top: 9px;
+          }}
+
+          .flashcard-card {{
+            position: relative;
+            background: var(--card-bg);
+            border: 0.5px solid var(--divider);
+            border-radius: 12px;
+            padding: 14px 14px 12px;
+            margin-bottom: 9px;
+            page-break-inside: avoid;
+          }}
+
+          .flashcard-number {{
+            color: var(--secondary);
+            font-size: 8.5pt;
+            font-weight: 700;
+            margin-bottom: 8px;
+          }}
+
+          .flashcard-columns {{
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+          }}
+
+          .flashcard-column {{
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+          }}
+
+          .flashcard-column:first-child {{
+            padding-right: 9px;
+          }}
+
+          .flashcard-column:last-child {{
+            padding-left: 9px;
+          }}
+
+          .flashcard-surface {{
+            min-height: 52mm;
+            border: 0.5px solid var(--divider);
+            border-radius: 10px;
+            background: var(--surface-bg);
+            padding: 10px;
+          }}
+
+          .flashcard-label {{
+            color: var(--secondary);
+            font-size: 8pt;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+          }}
+
+          .flashcard-text {{
+            white-space: pre-wrap;
+            line-height: 1.35;
+          }}
+
+          .flashcard-image-wrap {{
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px;
+            border: 0.5px solid var(--divider);
+            border-radius: 10px;
+            background: white;
+            max-width: 72mm;
+          }}
+
+          .flashcard-image {{
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 60mm;
+            max-height: 40mm;
+            object-fit: contain;
+          }}
+
+          .flashcard-hidden {{
+            height: 100%;
+            min-height: 38mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+          }}
+
+          .flashcard-hidden-line {{
+            height: 16px;
+            border-bottom: 1px solid var(--divider);
+            margin-top: 11px;
+          }}
+
+          .flashcard-empty {{
+            color: var(--secondary);
+            font-size: 9pt;
+          }}
+
+          .empty-state {{
+            color: var(--secondary);
+            font-size: 9.5pt;
+          }}
+
+          @media print {{
+            .flashcard-card {{
+              break-inside: avoid;
+            }}
+          }}
+        </style>
+      </head>
+      <body>
+        <header>
+          <h1>{title}</h1>
+          <div class="subtitle">{subtitle} • {export_label}</div>
+          <div class="header-divider"></div>
+        </header>
+        {cards}
+        {empty_state}
+      </body>
+    </html>
+    """.format(
+        title=title,
+        subtitle=escape(subtitle),
+        export_label=escape(export_label),
+        cards="".join(card_sections),
+        empty_state=""
+        if card_sections
+        else "<p class='empty-state'>{message}</p>".format(
+            message=escape(empty_state_message)
+        ),
+    )
+
+
+def _build_flashcard_side_column(
+    *,
+    label: str,
+    text: str,
+    image: dict | None,
+    is_hidden: bool,
+    empty_message: str,
+) -> str:
+    """Build one flashcard PDF column."""
+    if is_hidden:
+        body_markup = """
+        <div class="flashcard-hidden">
+          <div class="flashcard-hidden-line"></div>
+          <div class="flashcard-hidden-line"></div>
+          <div class="flashcard-hidden-line"></div>
+        </div>
+        """
+    else:
+        parts = []
+        normalized_text = text.strip()
+        if normalized_text:
+            parts.append(
+                '<div class="flashcard-text">{text}</div>'.format(
+                    text=_format_multiline_text(normalized_text)
+                )
+            )
+
+        if image is not None:
+            parts.append(_build_flashcard_image_markup(image))
+
+        if not parts:
+            parts.append(
+                '<div class="flashcard-empty">{message}</div>'.format(
+                    message=escape(empty_message)
+                )
+            )
+
+        body_markup = "".join(parts)
+
+    return """
+    <div class="flashcard-column">
+      <div class="flashcard-surface">
+        <div class="flashcard-label">{label}</div>
+        {body}
+      </div>
+    </div>
+    """.format(
+        label=escape(label),
+        body=body_markup,
+    )
+
+
 def _build_question_image_markup(image: dict | None) -> str:
     """Build an `<img>` block for an optional question image."""
     if image is None:
@@ -452,6 +756,28 @@ def _build_question_image_markup(image: dict | None) -> str:
         src=escape(image_src, quote=True),
         alt=escape(question_image_alt, quote=True),
     )
+
+
+def _build_flashcard_image_markup(image: dict) -> str:
+    """Build an image block for flashcard PDF export."""
+    image_alt = _("Flashcard image")
+    image_src = "data:{media_type};base64,{data}".format(
+        media_type=image["media_type"],
+        data=image["data"],
+    )
+    return """
+    <div class="flashcard-image-wrap">
+      <img class="flashcard-image" src="{src}" alt="{alt}" />
+    </div>
+    """.format(
+        src=escape(image_src, quote=True),
+        alt=escape(image_alt, quote=True),
+    )
+
+
+def _format_multiline_text(text: str) -> str:
+    """Escape text while preserving line breaks."""
+    return "<br>".join(escape(line) for line in text.splitlines())
 
 
 def _build_option_markup(option_letter: str, option_text: str) -> str:

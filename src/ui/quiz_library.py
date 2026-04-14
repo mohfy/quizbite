@@ -1,62 +1,53 @@
-"""Widgets for the quiz library list.
-
-This module builds rows and menus for the main window list.
-"""
+"""Widgets for the study library list."""
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from gettext import gettext as _, ngettext
 
 from gi.repository import Adw, Gtk
 
 
-def build_quiz_row(
-    quiz: dict,
+def build_library_row(
+    item: dict,
     on_activate: Callable,
-    on_share: Callable,
-    on_export: Callable,
-    on_delete: Callable,
+    menu_actions: Sequence[dict],
 ) -> Adw.ActionRow:
-    """Build a quiz row for the library list."""
+    """Build one row for the mixed library list."""
     row = Adw.ActionRow(
-        title=quiz["title"],
-        subtitle=format_question_count(quiz["question_count"]),
+        title=item["title"],
+        subtitle=format_library_item_subtitle(item),
     )
     row.set_activatable(True)
-    row.add_suffix(build_quiz_menu_button(quiz, on_share, on_export, on_delete))
+    row.add_suffix(build_item_menu_button(menu_actions))
     row.add_suffix(Gtk.Image(icon_name="go-next-symbolic"))
-    row.connect("activated", on_activate, quiz)
+    row.connect("activated", on_activate, item)
     return row
 
 
-def build_quiz_menu_button(
-    quiz: dict,
-    on_share: Callable,
-    on_export: Callable,
-    on_delete: Callable,
+def build_item_menu_button(
+    menu_actions: Sequence[dict],
 ) -> Gtk.MenuButton:
-    """Build the "more" menu button for a quiz row."""
+    """Build the "more" menu button for a library row."""
     menu_button = Gtk.MenuButton(icon_name="view-more-symbolic")
     menu_button.set_valign(Gtk.Align.CENTER)
     menu_button.add_css_class("flat")
-    menu_button.set_tooltip_text(_("Quiz actions"))
+    menu_button.set_tooltip_text(_("Item actions"))
 
     popover = Gtk.Popover()
     popover.add_css_class("menu")
 
     menu_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-    menu_box.append(build_menu_item_button(_("Share Quiz"), on_share, quiz, popover))
-    menu_box.append(build_menu_item_button(_("Export PDF"), on_export, quiz, popover))
-    menu_box.append(
-        build_menu_item_button(
-            _("Delete Quiz"),
-            on_delete,
-            quiz,
-            popover,
-            destructive=True,
+    for action in menu_actions:
+        menu_box.append(
+            build_menu_item_button(
+                action["label"],
+                action["callback"],
+                action["item"],
+                popover,
+                destructive=action.get("destructive", False),
+            )
         )
-    )
 
     popover.set_child(menu_box)
     menu_button.set_popover(popover)
@@ -83,10 +74,22 @@ def build_menu_item_button(
     return button
 
 
-def format_question_count(question_count: int) -> str:
-    """Format a question count label."""
-    return ngettext(
-        "{count} question",
-        "{count} questions",
-        question_count,
-    ).format(count=question_count)
+def format_library_item_subtitle(item: dict) -> str:
+    """Format the mixed-library count/type subtitle."""
+    entry_count = item["entry_count"]
+    if item["item_type"] == "flashcard":
+        count_label = ngettext(
+            "{count} flashcard",
+            "{count} flashcards",
+            entry_count,
+        ).format(count=entry_count)
+        type_label = _("Flashcard")
+    else:
+        count_label = ngettext(
+            "{count} question",
+            "{count} questions",
+            entry_count,
+        ).format(count=entry_count)
+        type_label = _("Quiz")
+
+    return _("{count} • {type}").format(count=count_label, type=type_label)

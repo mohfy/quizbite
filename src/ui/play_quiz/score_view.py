@@ -1,7 +1,4 @@
-"""Score page builder.
-
-Creates the final "Quiz Complete" page.
-"""
+"""Completion page builders for study sessions."""
 
 from __future__ import annotations
 
@@ -11,34 +8,32 @@ from gettext import gettext as _
 from gi.repository import Adw, Gtk
 
 
-def build_score_page(
-    score: int,
-    total_questions: int,
+def build_completion_page(
+    *,
+    title: str,
+    description: str,
     on_retry: Callable,
     on_go_home: Callable,
+    icon_name: str = "face-smile-symbolic",
+    retry_label: str | None = None,
 ) -> Adw.NavigationPage:
-    """Build a navigation page for the final score."""
+    """Build a navigation page for a finished study session."""
     toolbar_view = Adw.ToolbarView()
     header_bar = Adw.HeaderBar()
     header_bar.set_show_back_button(False)
     toolbar_view.add_top_bar(header_bar)
 
-    passed_quiz = score / total_questions >= 0.5
-    score_icon = "face-smile-symbolic" if passed_quiz else "face-sad-symbolic"
     status_page = Adw.StatusPage(
-        icon_name=score_icon,
-        title=_("Quiz Complete"),
-        description=_("You scored {score} out of {total}.").format(
-            score=score,
-            total=total_questions,
-        ),
+        icon_name=icon_name,
+        title=title,
+        description=description,
     )
 
     buttons_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
     buttons_box.set_halign(Gtk.Align.CENTER)
     buttons_box.set_margin_top(24)
 
-    retry_button = Gtk.Button(label=_("Try Again"))
+    retry_button = Gtk.Button(label=retry_label or _("Try Again"))
     retry_button.add_css_class("pill")
     retry_button.add_css_class("suggested-action")
     retry_button.connect("clicked", on_retry)
@@ -54,4 +49,27 @@ def build_score_page(
 
     score_page = Adw.NavigationPage.new(toolbar_view, _("Score"))
     score_page.set_can_pop(False)
+    return score_page
+
+
+def build_score_page(
+    score: int,
+    total_questions: int,
+    on_retry: Callable,
+    on_go_home: Callable,
+) -> Adw.NavigationPage:
+    """Build a navigation page for the final quiz score."""
+    passed_quiz = score / total_questions >= 0.5
+    title = _("Quiz Complete")
+    description = _("You scored {score} out of {total}.").format(
+        score=score,
+        total=total_questions,
+    )
+    score_page = build_completion_page(
+        title=title,
+        description=description,
+        on_retry=on_retry,
+        on_go_home=on_go_home,
+        icon_name="face-smile-symbolic" if passed_quiz else "face-sad-symbolic",
+    )
     return score_page

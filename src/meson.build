@@ -68,6 +68,13 @@ quizbite_ui_play_sources = [
   'ui/play_quiz/score_view.py',
 ]
 
+quizbite_ui_play_flashcard_sources = [
+  'ui/play_flashcard/__init__.py',
+  'ui/play_flashcard/flashcard_match_player.py',
+  'ui/play_flashcard/flashcard_mode_dialog.py',
+  'ui/play_flashcard/flashcard_quiz_builder.py',
+]
+
 quizbite_ui_utils_sources = [
   'ui/utils/__init__.py',
   'ui/utils/file_dialogs.py',
@@ -77,6 +84,7 @@ quizbite_ui_utils_sources = [
 quizbite_data_sources = [
   'data/__init__.py',
   'data/db.py',
+  'data/flashcard_apkg.py',
   'data/quiz_file.py',
 ]
 
@@ -84,5 +92,6 @@ install_data(quizbite_sources, install_dir: moduledir)
 install_data(quizbite_ui_sources, install_dir: moduledir / 'ui')
 install_data(quizbite_ui_editor_sources, install_dir: moduledir / 'ui' / 'editor')
 install_data(quizbite_ui_play_sources, install_dir: moduledir / 'ui' / 'play_quiz')
+install_data(quizbite_ui_play_flashcard_sources, install_dir: moduledir / 'ui' / 'play_flashcard')
 install_data(quizbite_ui_utils_sources, install_dir: moduledir / 'ui' / 'utils')
 install_data(quizbite_data_sources, install_dir: moduledir / 'data')

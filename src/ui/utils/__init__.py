@@ -4,6 +4,7 @@ Small shared utilities for dialogs and export flows.
 """
 
 from .file_dialogs import (
+    build_apkg_file_filter,
     build_file_dialog,
     build_image_file_filter,
     build_pdf_file_filter,
@@ -11,14 +12,16 @@ from .file_dialogs import (
     dialog_error_was_dismissed,
     path_from_file,
 )
-from .pdfgenerator import generate_quiz_pdf
+from .pdfgenerator import generate_flashcard_pdf, generate_quiz_pdf
 
 __all__ = [
+    "build_apkg_file_filter",
     "build_file_dialog",
     "build_image_file_filter",
     "build_pdf_file_filter",
     "build_quiz_file_filter",
     "dialog_error_was_dismissed",
+    "generate_flashcard_pdf",
     "generate_quiz_pdf",
     "path_from_file",
 ]

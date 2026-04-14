@@ -39,7 +39,7 @@ APPLICATION_NAME = _("Quizbite")
 APPLICATION_DEVELOPER_NAME = "mohfy"
 APPLICATION_WEBSITE = "https://github.com/mohfy/quizbite"
 APPLICATION_ISSUES_URL = "https://github.com/mohfy/quizbite/issues"
-APPLICATION_COMMENTS = _("Create, play, and export multiple choice quizzes.")
+APPLICATION_COMMENTS = _("Create quizzes, study flashcards, and export both.")
 
 
 class QuizbiteApplication(Adw.Application):

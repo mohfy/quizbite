@@ -11,6 +11,7 @@ from gettext import gettext as _
 from gi.repository import Gio, GLib, Gtk
 
 QUIZ_FILE_PATTERNS = ("*.quiz", "*.json")
+APKG_FILE_PATTERNS = ("*.apkg",)
 
 
 def build_file_dialog(
@@ -49,6 +50,17 @@ def build_quiz_file_filter() -> Gtk.FileFilter:
         quiz_filter.add_pattern(pattern)
 
     return quiz_filter
+
+
+def build_apkg_file_filter() -> Gtk.FileFilter:
+    """Create an APKG file filter."""
+    apkg_filter = Gtk.FileFilter()
+    apkg_filter.set_name(_("Anki deck files"))
+
+    for pattern in APKG_FILE_PATTERNS:
+        apkg_filter.add_pattern(pattern)
+
+    return apkg_filter
 
 
 def build_pdf_file_filter() -> Gtk.FileFilter:

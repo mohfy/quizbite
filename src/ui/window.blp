@@ -35,8 +35,8 @@ template $QuizbiteWindow: Adw.ApplicationWindow {
 
         content: Gtk.Stack quiz_status {
           Adw.StatusPage empty_page {
-            title: _("No Quizzes Yet");
-            description: _("Create a quiz to get started, or import one that you already have.");
+            title: _("No Study Sets Yet");
+            description: _("Create a quiz to get started, or import a quiz or Anki deck.");
             icon-name: "accessories-dictionary-symbolic";
 
             child: Gtk.Box {
@@ -55,7 +55,7 @@ template $QuizbiteWindow: Adw.ApplicationWindow {
               }
 
               Button {
-                label: _("Import Quiz");
+                label: _("Import Study Set");
                 action-name: "app.import";
 
                 styles [
@@ -67,7 +67,7 @@ template $QuizbiteWindow: Adw.ApplicationWindow {
 
           Adw.Clamp quiz_list_clamp {
             child: Adw.PreferencesGroup quiz_list {
-              title: _("Quizzes");
+              title: _("Library");
             };
           }
         };
@@ -79,7 +79,7 @@ template $QuizbiteWindow: Adw.ApplicationWindow {
 menu primary_menu {
   section {
     item {
-      label: _("Import Quiz");
+      label: _("Import Study Set");
       action: "app.import";
     }
   }

@@ -6,7 +6,8 @@ It supports:
 - Create quizzes with multiple choice questions.
 - Optional question images.
 - Import and export `.quiz` files.
-- Export a quiz to PDF.
+- Import Flashcards and play them
+- Export a quiz or flashcards to PDF.
 
 ## Build And Run
 

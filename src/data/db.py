@@ -1,4 +1,4 @@
-"""SQLite persistence for quizzes.
+"""SQLite persistence for quizzes and flashcards.
 
 Uses `dataset` to manage a small SQLite database in the user data dir.
 This module owns the DB schema and CRUD helpers.
@@ -13,6 +13,8 @@ from gi.repository import GLib
 
 APP_DATA_DIR_NAME = "dev.mohfy.quizbite"
 DB_FILE_NAME = "quizbite.db"
+ITEM_TYPE_QUIZ = "quiz"
+ITEM_TYPE_FLASHCARD = "flashcard"
 
 
 def get_data_dir() -> Path:
@@ -89,10 +91,60 @@ def save_quiz(quiz_data: dict) -> int:
     return quiz_id
 
 
+def save_flashcard_deck(deck_data: dict) -> int:
+    """Insert a flashcard deck and its cards."""
+    db = get_db()
+
+    with db as tx:
+        deck_id = tx["flashcard_decks"].insert(
+            {
+                "title": deck_data["title"],
+            }
+        )
+
+        for card_index, card in enumerate(deck_data["cards"]):
+            card_record = {
+                "deck_id": deck_id,
+                "position": card_index,
+                "term_text": card["term_text"],
+                "definition_text": card["definition_text"],
+            }
+
+            term_image = card.get("term_image")
+            if term_image is not None:
+                card_record.update(
+                    {
+                        "term_image_filename": term_image["filename"],
+                        "term_image_media_type": term_image["media_type"],
+                        "term_image_data": term_image["data"],
+                    }
+                )
+
+            definition_image = card.get("definition_image")
+            if definition_image is not None:
+                card_record.update(
+                    {
+                        "definition_image_filename": definition_image["filename"],
+                        "definition_image_media_type": definition_image["media_type"],
+                        "definition_image_data": definition_image["data"],
+                    }
+                )
+
+            tx["flashcard_cards"].insert(card_record)
+
+    return deck_id
+
+
 def get_quizzes() -> list[dict]:
     """Return all quizzes, ordered by id."""
     db = get_db()
     return list(db["quizzes"].find(order_by="id"))
+
+
+def get_flashcard_decks() -> list[dict]:
+    """Return all flashcard decks, ordered by id."""
+    db = get_db()
+    return list(db["flashcard_decks"].find(order_by="id"))
 
 
 def get_quizzes_with_question_counts() -> list[dict]:
@@ -113,6 +165,56 @@ def get_quizzes_with_question_counts() -> list[dict]:
         quiz["question_count"] = question_counts[quiz["id"]]
 
     return quizzes
+
+
+def get_flashcard_decks_with_card_counts() -> list[dict]:
+    """Return flashcard decks with a `card_count` field."""
+    decks = get_flashcard_decks()
+    if not decks:
+        return []
+
+    db = get_db()
+    card_counts = {deck["id"]: 0 for deck in decks}
+
+    for card in db["flashcard_cards"].find(order_by="deck_id"):
+        deck_id = card["deck_id"]
+        if deck_id in card_counts:
+            card_counts[deck_id] += 1
+
+    for deck in decks:
+        deck["card_count"] = card_counts[deck["id"]]
+
+    return decks
+
+
+def get_library_items() -> list[dict]:
+    """Return a mixed list of quiz and flashcard library items."""
+    items = []
+
+    for quiz in get_quizzes_with_question_counts():
+        items.append(
+            {
+                "id": quiz["id"],
+                "title": quiz["title"],
+                "item_type": ITEM_TYPE_QUIZ,
+                "entry_count": quiz["question_count"],
+            }
+        )
+
+    for deck in get_flashcard_decks_with_card_counts():
+        items.append(
+            {
+                "id": deck["id"],
+                "title": deck["title"],
+                "item_type": ITEM_TYPE_FLASHCARD,
+                "entry_count": deck["card_count"],
+            }
+        )
+
+    return sorted(
+        items,
+        key=lambda item: (item["title"].casefold(), item["item_type"], item["id"]),
+    )
 
 
 def get_quiz(quiz_id: int) -> dict | None:
@@ -152,6 +254,44 @@ def get_quiz(quiz_id: int) -> dict | None:
     return quiz
 
 
+def get_flashcard_deck(deck_id: int) -> dict | None:
+    """Load a flashcard deck with its cards."""
+    db = get_db()
+
+    deck = db["flashcard_decks"].find_one(id=deck_id)
+    if deck is None:
+        return None
+
+    card_rows = list(db["flashcard_cards"].find(deck_id=deck_id, order_by="position"))
+    cards = []
+
+    for card in card_rows:
+        card_payload = {
+            "id": card["id"],
+            "term_text": card.get("term_text") or "",
+            "definition_text": card.get("definition_text") or "",
+        }
+
+        if card.get("term_image_data"):
+            card_payload["term_image"] = {
+                "filename": card.get("term_image_filename") or "term-image",
+                "media_type": card.get("term_image_media_type") or "image/png",
+                "data": card["term_image_data"],
+            }
+
+        if card.get("definition_image_data"):
+            card_payload["definition_image"] = {
+                "filename": card.get("definition_image_filename") or "definition-image",
+                "media_type": card.get("definition_image_media_type") or "image/png",
+                "data": card["definition_image_data"],
+            }
+
+        cards.append(card_payload)
+
+    deck["cards"] = cards
+    return deck
+
+
 def export_quiz(quiz_id: int) -> dict | None:
     """Build a portable quiz payload.
 
@@ -188,6 +328,33 @@ def export_quiz(quiz_id: int) -> dict | None:
     }
 
 
+def export_flashcard_deck(deck_id: int) -> dict | None:
+    """Build a portable flashcard deck payload."""
+    deck = get_flashcard_deck(deck_id)
+    if deck is None:
+        return None
+
+    cards = []
+    for card in deck["cards"]:
+        card_payload = {
+            "term_text": card["term_text"],
+            "definition_text": card["definition_text"],
+        }
+
+        if card.get("term_image") is not None:
+            card_payload["term_image"] = card["term_image"]
+
+        if card.get("definition_image") is not None:
+            card_payload["definition_image"] = card["definition_image"]
+
+        cards.append(card_payload)
+
+    return {
+        "title": deck["title"],
+        "cards": cards,
+    }
+
+
 def delete_quiz(quiz_id: int) -> None:
     """Delete a quiz and its related rows."""
     db = get_db()
@@ -201,3 +368,12 @@ def delete_quiz(quiz_id: int) -> None:
 
         tx["questions"].delete(quiz_id=quiz_id)
         tx["quizzes"].delete(id=quiz_id)
+
+
+def delete_flashcard_deck(deck_id: int) -> None:
+    """Delete a flashcard deck and its cards."""
+    db = get_db()
+
+    with db as tx:
+        tx["flashcard_cards"].delete(deck_id=deck_id)
+        tx["flashcard_decks"].delete(id=deck_id)

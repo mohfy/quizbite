@@ -30,6 +30,11 @@
   </branding>
 
   <releases>
+  <release version="1.5.0" date="2026-04-14">
+    <description>
+      <p>Flashcards update!</p>
+    </description>
+  </release>
     <release version="1.0.0" date="2026-04-10">
       <description>
         <p>First release.</p>
