@@ -31,7 +31,7 @@
         {
           "type": "git",
           "url": "https://github.com/mohfy/quizbite.git",
-          "commit": "18a37004b3234cc7c78a0852416fccd19791ef39"
+          "branch": "main"
         }
       ],
       "config-opts": ["--libdir=lib"]
