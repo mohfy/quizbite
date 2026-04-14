@@ -27,19 +27,19 @@
   <screenshots>
     <screenshot type="default">
       <caption xml:lang="en">Browse and manage quizzes in your local library</caption>
-      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/6faff81a313c519533f271d8510d9a78671b7020/data/screenshots/Quiz%20Library.png</image>
+      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/4a4b8fc96bb6893e4b4cc419141ae9976458a3d7/data/screenshots/Quiz%20Library.png</image>
     </screenshot>
     <screenshot>
       <caption xml:lang="en">Create multiple choice quizzes with optional images</caption>
-      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/6faff81a313c519533f271d8510d9a78671b7020/data/screenshots/Quiz%20Editor.png</image>
+      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/4a4b8fc96bb6893e4b4cc419141ae9976458a3d7/data/screenshots/Quiz%20Editor.png</image>
     </screenshot>
     <screenshot>
       <caption xml:lang="en">Play quizzes and review your score</caption>
-      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/6faff81a313c519533f271d8510d9a78671b7020/data/screenshots/Quiz%20Player.png</image>
+      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/4a4b8fc96bb6893e4b4cc419141ae9976458a3d7/data/screenshots/Quiz%20Player.png</image>
     </screenshot>
     <screenshot>
       <caption xml:lang="en">Add images to quiz questions when needed</caption>
-      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/6faff81a313c519533f271d8510d9a78671b7020/data/screenshots/Image%20Support.png</image>
+      <image type="source">https://raw.githubusercontent.com/mohfy/quizbite/4a4b8fc96bb6893e4b4cc419141ae9976458a3d7/data/screenshots/Image%20Support.png</image>
     </screenshot>
   </screenshots>
 
